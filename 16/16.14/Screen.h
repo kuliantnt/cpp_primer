@@ -9,6 +9,7 @@ class Screen {
 public:
     typedef std::string::size_type pos;
 
+    using Action = Screen& (Screen::*)();
     Screen() = default;
 
     Screen(char c) : contents(H * W, c) {}
@@ -36,31 +37,18 @@ public:
     }
 
     //get char must inline
-    char get() const{
+    char get() const {
         return this->contents[cursor];
     }
+
+    pos get_cursor const {
+        return this->cursor;
+    }
+
 private:
     pos height = H, width = W;
     pos cursor = 0;
     std::string contents;
 };
 
-template <unsigned H, unsigned W>
-inline
-Screen<H,W>& Screen<H,W>::move(pos h, pos w) {
-    auto temp = contents;
-    contents += h * width + w;
-};
-
-template <unsigned H, unsigned W>
-Screen<H,W> &Screen<H,W>::operator>>(char &c) {
-    c = this->contents[cursor];
-    return *this;
-};
-
-template <unsigned H,unsigned W>
-Screen<H,W> &Screen<H,W>::operator<<(const char c) {
-    this->contents[cursor];
-    return *this;
-}
 #endif
