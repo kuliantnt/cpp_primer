@@ -1,80 +1,24 @@
-#ifndef SCREEN_H
-#define SCREEN_H
-
+//Screen.h
+#ifndef CLINE_SCREEN_H
+#define CLINE_SCREEN_H
 #include <string>
-#include <iostream>
-
-using Action = Screen&(Screen::*)();
-template <unsigned H, unsigned W>
 class Screen {
 public:
-    typedef std::string::size_type pos;
-
-
-    enum Directions{
-        HOME,
-        FORWORD,
-        BACK,
-        UP,
-        DOWN
-    };
-
+    static const pos Screen::*data() {//19.12
+        return &Screen::cursor;
+    }
     Screen() = default;
-
-    Screen(char c) : contents(H * W, c) {}
-
-    Screen &move(pos, pos);
-
-    Screen &operator<<(const char c);
-
-    Screen &operator>>(char &c);
-
-    //cursor move function
-    Screen &home();
-
-    Screen &forward();
-
-    Screen &back();
-
-    Screen &up();
-
-    Screen &down();
-
-    //out print
-    friend std::ostream &operator<<(std::ostream &os, const Screen &c) {
-        for (int i = 0; i != H; i++) {
-            os << c.contents.substr(0, W) << std::endl;
-        }
-        return os;
-    }
-
-    //in print
-    friend std::istream operator>>(std::istream &is, Screen &c) {
-        char temp;
-        is >> temp;
-        c.contents = std::string(H * W, temp);
-        return is;
-    }
-
-    //get char must inline
-    char get() const {
-        return this->contents[cursor];
-    }
+    Screen(pos ht, pos wd, char c) : height(ht), width(wd), contents(ht * wd, c) {}
+    char get() const { return contents[cursor]; }
+    char get_cursor() const { return contents[cursor]; }
+    inline char get(pos ht, pos wd) const;
+    Screen &move(pos r, pos c);
 
 private:
-    pos height = H, width = W;
+    typedef std::string::size_type pos;
     pos cursor = 0;
+    pos height = 0, width = 0;
     std::string contents;
-    static Action Menu[];
-};
-
-template<unsigned M,unsigned H>
-Action Screen<M,H>::Menu[]{
-        &Screen<M,H>::home,
-        &Screen<M,H>::forward,
-        &Screen<M,H>::back,
-        &Screen<M,H>::up,
-        &Screen<M,H>::down
 };
 
 #endif
