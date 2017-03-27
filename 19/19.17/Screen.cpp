@@ -15,3 +15,17 @@ Screen& Screen::move(pos r, pos c)
     cursor = row + c;
     return *this;
 }
+
+Screen &Screen::home() {
+    this->cursor = 0;
+    return *this;
+}
+
+Screen &Screen::forward() {
+    this ->cursor -= width;
+    return *this;
+}
+
+Screen &Screen::back() {
+
+}
