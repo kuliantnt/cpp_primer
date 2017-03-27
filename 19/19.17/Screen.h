@@ -9,6 +9,16 @@ class Screen {
 public:
     typedef std::string::size_type pos;
 
+    using Action = Screen&(Screen::*)();
+
+    enum Directions{
+        HOME,
+        FORWORD,
+        BACK,
+        UP,
+        DOWN
+    };
+
     Screen() = default;
 
     Screen(char c) : contents(H * W, c) {}
@@ -18,6 +28,17 @@ public:
     Screen &operator<<(const char c);
 
     Screen &operator>>(char &c);
+
+    //cursor move function
+    Screen &home();
+
+    Screen &forward();
+
+    Screen &back();
+
+    Screen &up();
+
+    Screen &down();
 
     //out print
     friend std::ostream &operator<<(std::ostream &os, const Screen &c) {
@@ -36,31 +57,15 @@ public:
     }
 
     //get char must inline
-    char get() const{
+    char get() const {
         return this->contents[cursor];
     }
+
 private:
     pos height = H, width = W;
     pos cursor = 0;
     std::string contents;
 };
 
-template <unsigned H, unsigned W>
-inline
-Screen<H,W>& Screen<H,W>::move(pos h, pos w) {
-    auto temp = contents;
-    contents += h * width + w;
-};
 
-template <unsigned H, unsigned W>
-Screen<H,W> &Screen<H,W>::operator>>(char &c) {
-    c = this->contents[cursor];
-    return *this;
-};
-
-template <unsigned H,unsigned W>
-Screen<H,W> &Screen<H,W>::operator<<(const char c) {
-    this->contents[cursor];
-    return *this;
-}
 #endif
