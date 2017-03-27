@@ -11,3 +11,7 @@ char Screen::get() const {
 char Screen::get(Screen::pos ht, Screen::pos wd) const {
     return contents[ht * width + wd];
 }
+
+const Screen::pos Screen::* Screen::date() {
+    return &Screen::cursor;
+}

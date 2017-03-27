@@ -9,6 +9,7 @@
 class Screen{
 public:
     typedef std::string::size_type pos;
+    static const pos Screen::*date();
     char get_cursor() const{
         return contents[cursor];
     }
