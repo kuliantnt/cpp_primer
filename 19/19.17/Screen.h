@@ -4,12 +4,12 @@
 #include <string>
 #include <iostream>
 
+using Action = Screen&(Screen::*)();
 template <unsigned H, unsigned W>
 class Screen {
 public:
     typedef std::string::size_type pos;
 
-    using Action = Screen&(Screen::*)();
 
     enum Directions{
         HOME,
@@ -65,7 +65,16 @@ private:
     pos height = H, width = W;
     pos cursor = 0;
     std::string contents;
+    static Action Menu[];
 };
 
+template<unsigned M,unsigned H>
+Action Screen<M,H>::Menu[]{
+        &Screen<M,H>::home,
+        &Screen<M,H>::forward,
+        &Screen<M,H>::back,
+        &Screen<M,H>::up,
+        &Screen<M,H>::down
+};
 
 #endif
