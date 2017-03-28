@@ -50,5 +50,5 @@ Screen::Action Screen::Menu[] = {
 };
 
 Screen &Screen::move(Screen::Directions cm) {
-    return (this->* Menu[cm])();
+    return (this->*Menu[cm])();
 }
