@@ -9,5 +9,6 @@ int main(int argc, char **argv) {
     print(std::cout,sd);
     const std::string Sales_date::*pb = Sales_date::date();
     std::cout << sd.*pb << std::endl;
+
 }
 */
