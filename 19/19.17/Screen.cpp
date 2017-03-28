@@ -22,10 +22,33 @@ Screen &Screen::home() {
 }
 
 Screen &Screen::forward() {
-    this ->cursor -= width;
+    this->cursor += width;
     return *this;
 }
 
 Screen &Screen::back() {
+    this->cursor -= width;
+    return *this;
+}
 
+Screen &Screen::up() {
+    ++this->cursor;
+    return *this;
+}
+
+Screen &Screen::down() {
+    --this->cursor;
+    return *this;
+}
+
+Screen::Action Screen::Menu[] = {
+        &Screen::home,
+        &Screen::forward,
+        &Screen::back,
+        &Screen::up,
+        &Screen::down
+};
+
+Screen &Screen::move(Screen::Directions cm) {
+    return (this->* Menu[cm])();
 }
