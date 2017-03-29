@@ -23,6 +23,7 @@
     <ProjectGuid>{589CEA84-6EDA-4642-ABFF-22C27A4E22B1}</ProjectGuid>
     <RootNamespace>cpp_primer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <ProjectName>19.17</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -111,6 +112,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\19\19.17\main.cpp" />
+    <ClCompile Include="..\19\19.17\Screen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\19\19.17\Screen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
