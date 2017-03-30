@@ -18,7 +18,7 @@ public:
     //移动赋值运算符
     Token& operator=(Token&&);
     //拷贝赋值运算符
-    Token& operator= (const Token&);
+    Token& operator= (const Token&&);
     // 赋值运算符
     Token& operator= (int i);
     Token& operator= (char c);

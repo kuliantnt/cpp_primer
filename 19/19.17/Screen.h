@@ -1,5 +1,6 @@
 //Screen.h
-#pragma once
+#ifndef CLINE_SCREEN_H
+#define CLINE_SCREEN_H
 #include <string>
 class Screen {
 public:
@@ -50,3 +51,5 @@ private:
     pos height = 0, width = 0;
     std::string contents;
 };
+
+#endif
