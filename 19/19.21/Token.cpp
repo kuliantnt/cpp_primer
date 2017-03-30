@@ -50,6 +50,25 @@ void Token::copyUnion(const Token &t)
     }
 }
 
+Token & Token::operator=(Token &&t)
+{
+    if (&tok == &t.tok) {
+        return *this;
+    }
+    else
+    {
+        using std::move;
+        if (tok == STR && t.tok != STR) {
+            sval.~basic_string();
+        }
+        if (tok != STR && t.tok == STR) {
+            new (&sval) std::string(move(t.sval));
+        }
+        //todo 
+        return *this;
+    }
+}
+
 Token & Token::operator=(const Token &t)
 {
     if (tok == STR && t.tok != STR) {
