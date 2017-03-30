@@ -28,10 +28,26 @@ void Token::copyUnion(const Token &t)
     }
 }
 
+Token & Token::operator=(const Token &t)
+{
+    if (tok == STR && t.tok != STR) {
+        sval.~basic_string();
+    }
+    if (tok == STR && t.tok == STR) {
+        sval = t.sval;
+    }
+    else
+    {
+        copyUnion(t);
+    }
+    tok = t.tok;
+    return *this;
+}
+
 Token & Token::operator=(int i)
 {
     if (tok == STR) {
-        sval.~basic_string;
+        sval.~basic_string();
     }
     ival = i;
     tok = INT;
@@ -41,7 +57,7 @@ Token & Token::operator=(int i)
 Token & Token::operator=(char c)
 {
     if (tok == STR) {
-        sval.~basic_string;
+        sval.~basic_string();
     }
     tok = CHAR;
     cval = c;
@@ -51,7 +67,7 @@ Token & Token::operator=(char c)
 Token & Token::operator=(double d)
 {
     if (tok == STR) {
-        sval.~basic_string;
+        sval.~basic_string();
     }
     tok = DLB;
     dval = d;
