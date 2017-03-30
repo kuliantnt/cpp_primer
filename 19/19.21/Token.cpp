@@ -10,6 +10,28 @@ Token::~Token()
     }
 }
 
+Token::Token(Token && t)
+{
+    using std::move;
+    if (t.tok == STR) {
+        sval = move(t.sval);
+    }
+    else
+    {
+        switch (t.tok) {
+        case INT:
+            ival = move(t.ival);
+            break;
+        case DLB:
+            dval = move(t.dval);
+            break;
+        case CHAR:
+            cval = move(t.cval);
+            break;
+        }
+    }
+}
+
 void Token::copyUnion(const Token &t)
 {
     switch (t.tok) {
