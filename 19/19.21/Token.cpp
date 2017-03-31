@@ -8,27 +8,8 @@ Token::~Token()
     if (tok == STR) {
         sval.~basic_string();
     }
-}
-
-Token::Token(Token && t)
-{
-    using std::move;
-    if (t.tok == STR) {
-        sval = move(t.sval);
-    }
-    else
-    {
-        switch (t.tok) {
-        case INT:
-            ival = move(t.ival);
-            break;
-        case DLB:
-            dval = move(t.dval);
-            break;
-        case CHAR:
-            cval = move(t.cval);
-            break;
-        }
+    else if (tok == SD) {
+        sdval.~Sales_date();
     }
 }
 
@@ -47,6 +28,33 @@ void Token::copyUnion(const Token &t)
     case Token::STR:
         new(&sval) std::string(t.sval);
         break;
+
+    case Token::SD:
+        new(&sdval) Sales_date(t.sdval);
+        break;
+    }
+}
+
+void Token::moveUnion(Token &&t)
+{
+    using std::move;
+    switch (t.tok) {
+    case Token::INT:
+        ival = move(t.ival);
+        break;
+    case Token::CHAR:
+        cval = move(t.cval);
+        break;
+    case Token::DLB:
+        dval = move(t.dval);
+        break;
+    case Token::STR:
+        new(&sval) std::string(move(t.sval));
+        break;
+
+    case Token::SD:
+        new(&sdval) Sales_date(move(t.sdval));
+        break;
     }
 }
 
@@ -64,7 +72,9 @@ Token & Token::operator=(Token &&t)
         if (tok != STR && t.tok == STR) {
             new (&sval) std::string(move(t.sval));
         }
-        //todo 
+        else {
+            moveUnion(move(t));
+        }
         return *this;
     }
 }
@@ -90,6 +100,9 @@ Token & Token::operator=(int i)
     if (tok == STR) {
         sval.~basic_string();
     }
+    else if (tok == SD) {
+        sdval.~Sales_date();
+    }
     ival = i;
     tok = INT;
     return *this;
@@ -99,6 +112,9 @@ Token & Token::operator=(char c)
 {
     if (tok == STR) {
         sval.~basic_string();
+    }
+    else if (tok == SD) {
+        sdval.~Sales_date();
     }
     tok = CHAR;
     cval = c;
@@ -110,6 +126,9 @@ Token & Token::operator=(double d)
     if (tok == STR) {
         sval.~basic_string();
     }
+    else if (tok == SD) {
+        sdval.~Sales_date();
+    }
     tok = DLB;
     dval = d;
     return *this;
@@ -120,10 +139,26 @@ Token & Token::operator=(std::string str)
     if (tok == STR) {
         sval = str;
     }
+    else if (tok == SD) {
+        sdval.~Sales_date();
+    }
     else
     {
         new(&sval) std::string(str);
     }
     tok = STR;
     return *this;
+}
+
+Token & Token::operator=(Sales_date sd)
+{
+    if (tok == STR) {
+        sval.~basic_string();
+    }
+    else if (tok == SD) {
+        sdval = sd;
+    }
+    else{
+        new(&sdval) Sales_date(sd);
+    }
 }
